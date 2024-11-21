@@ -7,27 +7,24 @@ import Courses from './Pages/Courses'
 import Contact from './Pages/Contact'
 import Dasboard from './Pages/Dasboard'
 import Pnf from './Pages/Pnf'
-import Header from './Components/Header'
-
-
+import ForgotPassword from './Pages/ForgotPassword'
+import PasswordReset from './Pages/PasswordReset'
 
 function App() {
 
   return (
     <>
-      <Header />
       <Routes>
-
         <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Auth />} />
+        <Route path='/login' element={<Auth insideLogin={true} />} />
         <Route path='/register' element={<Auth insideRegister={true} />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset_password/:id/:token' element={<PasswordReset />} />
         <Route path='/blog' element={<Blog />} />
         <Route path='/courses' element={<Courses />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/dashboard' element={<Dasboard />} />
         <Route path='/*' element={<Pnf />} />
-
-
       </Routes>
     </>
   )
