@@ -21,3 +21,4 @@ export const resetApi = async(id, token, reqBody)=>{
     
     return await commonApi("PUT", `${SERVER_URL}/reset_password/${id}/${token}`, reqBody)
 }
+
