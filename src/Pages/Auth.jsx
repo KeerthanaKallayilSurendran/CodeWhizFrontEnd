@@ -58,7 +58,7 @@ function Auth({ insideRegister }) {
           const result = await loginApi(userDetails)
           if(result.status === 200){
             sessionStorage.setItem("user", JSON.stringify(result.data.user))
-            sessionStorage.setItem("token", JSON.stringify(result.data.token))
+            sessionStorage.setItem("token", result.data.token)
             setUserDetails({username:"", userType:"", email:"", password:"",})
             navigate('/')
           }

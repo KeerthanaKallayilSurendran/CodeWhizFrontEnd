@@ -9,6 +9,7 @@ import Dasboard from './Pages/Dasboard'
 import Pnf from './Pages/Pnf'
 import ForgotPassword from './Pages/ForgotPassword'
 import PasswordReset from './Pages/PasswordReset'
+import TAddVideoClass from './Components/Teacher/TAddVideoClass'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/courses' element={<Courses />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/dashboard' element={<Dasboard />} />
+        <Route path="/add-class/:courseId" element={<TAddVideoClass />} />
         <Route path='/*' element={<Pnf />} />
       </Routes>
     </>

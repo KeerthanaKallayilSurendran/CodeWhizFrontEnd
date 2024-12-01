@@ -1,7 +1,7 @@
 import { Box, Modal } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import IMG from '../../assets/imgplace.png'
-import { addCourseApi } from '../../Service/allApi';
+import { courseAddApi } from '../../Service/allApi';
 
 const style = {
     position: 'absolute',
@@ -17,11 +17,11 @@ const style = {
     textAlign: 'center'
   };
   
-const TeacherAddCourse = () => {
+const TeacherAddCourse = ({categoryName}) => {
 
-    
+  
   const [courseDetails, setCourseDetails] = useState({
-    courseName:"", description:"", category:"", instructorName:"", price:"", courseImg:""
+    courseName:"", description:"", category:categoryName, instructorName:"", price:"", courseImg:""
   })
   const [imgFileStatue, setImgFileStatue] = useState(false)
   const [preview, setPreview] = useState("")
@@ -42,30 +42,48 @@ const TeacherAddCourse = () => {
   const handleClose = () => {
     setOpen(false)
     setCourseDetails({
-      courseName:"", description:"", category:"", price:"", instructorName:"", courseImg:""
+      courseName:"", description:"", category:categoryName, price:"", instructorName:"", courseImg:""
     })
   }
-
-  const handleAddCourse = async() => {
-    console.log(courseDetails);
-    
-    const {courseName, description, category, price, instructorName, courseImg} = courseDetails
-    console.log(courseImg.name);
-    if(courseName && description && category && price && instructorName && courseImg){
+  const handleAddCourse = async ()=>{
+    const {courseName,description,category,instructorName,price,courseImg} = courseDetails
+    if(courseName && description && category && instructorName && price && courseImg){
+     // alert("procedd to api")
       const reqBody = new FormData()
-      reqBody.append("courseName", courseName)
-      reqBody.append("description", description)
-      reqBody.append("category", category)
+      reqBody.append("courseName",courseName)
+      reqBody.append("description",description)
+      reqBody.append("category",category)
+      reqBody.append("instructorName",instructorName)
       reqBody.append("price",price)
-      reqBody.append("instructorName", instructorName)
-      reqBody.append("courseImg", courseImg)
+      reqBody.append("courseImg",courseImg)
       const token = sessionStorage.getItem("token")
-      
+
+      if(token){
+        const reqHeader = {
+          "Content-Type":"multipart/form-data",
+          "Authorization":`Bearer ${token}`
+        }
+        // api call
+        try {
+          const result = await courseAddApi(reqBody,reqHeader)
+          if(result.status==200){
+            alert("Course addedd successfully!!!")
+            handleClose()
+          }else{
+            alert(result.response.data)
+          }
+        } catch (err) {
+          console.log(err);
+          
+        }
+        
+      }
+
     }else{
-      alert("Please fill the form completely")
+      alert("Please fill the form completely!!!")
     }
-    
   }
+  
 
   return (
     <div>
@@ -80,7 +98,7 @@ const TeacherAddCourse = () => {
           <h1 className='text-2xl font-bold py-4'>Add Course</h1>
           <input value={courseDetails.courseName} onChange={e=>setCourseDetails({...courseDetails, courseName:e.target.value})} className='rounded-md border border-zinc-700 p-2 mb-2' type="text" placeholder='Course Name' />
           <input value={courseDetails.description} onChange={e=>setCourseDetails({...courseDetails, description:e.target.value})} className='rounded-md border border-zinc-700 p-2 mb-2' type="text" placeholder='Course Description' />
-          <input value={courseDetails.category} onChange={e=>setCourseDetails({...courseDetails, category:e.target.value})} className='rounded-md border border-zinc-700 p-2 mb-2' type="text" placeholder='Course Category' />
+          <input value={courseDetails.category} className='rounded-md border border-zinc-700 p-2 mb-2' type="text" placeholder='Course Category' />
           <input value={courseDetails.instructorName} onChange={e=>setCourseDetails({...courseDetails, instructorName:e.target.value})} className='rounded-md border border-zinc-700 p-2 mb-2' type="text" placeholder='Instructor' />
           <input value={courseDetails.price} onChange={e=>setCourseDetails({...courseDetails, price:e.target.value})} className='rounded-md border border-zinc-700 p-2 mb-2' type="text" placeholder='Price' />
           <div className='flex justify-center items-center flex-col'>
