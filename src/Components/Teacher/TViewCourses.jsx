@@ -71,7 +71,7 @@ const TViewCourses = ({categoryId}) => {
                       <img
                         style={{ height: '180px', width: '320px' }}
                         className='rounded object-cover object-center'
-                        src={`${SERVER_URL}/uploads/${course?.courseImg}`}
+                        src={`${SERVER_URL}/uploads/images/${course?.courseImg}`}
                         alt={course?.courseName || 'Course Image'}
                       />
                     </div>
